@@ -261,10 +261,10 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
     public function assertPageAddress($page)
     {
         $expected = parse_url($this->locatePath($page), PHP_URL_PATH);
-        $expected = preg_replace('/^\/[^\.\/]+\.php/', '', $expected);
+        $expected = preg_replace('/^\/[^\.\/]+\.php/', '', $expected); // XXX: I wonder why its here, it turns my "/testurl.php" into "", which is not expected. Maybe this cleanup is needed for assertEquals (which I also doubt), but in error it lies about 'actual "" expected ""'
 
         $actual = parse_url($this->getSession()->getCurrentUrl(), PHP_URL_PATH);
-        $actual = preg_replace('/^\/[^\.\/]+\.php/', '', $actual);
+        $actual = preg_replace('/^\/[^\.\/]+\.php/', '', $actual); // XXX :same here (see 2 lines above).
 
         try {
             assertEquals($expected, $actual);
